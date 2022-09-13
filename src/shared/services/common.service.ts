@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ResponseDto } from '../dto/response.dto';
+import * as _ from 'lodash';
 
 @Injectable()
 export class CommonService {
-
-  constructor() { }
+  constructor() {}
 
   async customResponse(data: object, message: string, status: string) {
     const dto = new ResponseDto();
@@ -14,7 +14,12 @@ export class CommonService {
     return dto;
   }
 
-  async customResponseToken(data: object, message: string, status: string, roleModules?: any) {
+  async customResponseToken(
+    data: object,
+    message: string,
+    status: string,
+    roleModules?: any,
+  ) {
     const dto = new ResponseDto();
     dto.status = status;
     dto.message = message;
@@ -24,13 +29,27 @@ export class CommonService {
   }
 
   generateUID() {
-    // I generate the UID from two parts here 
+    // I generate the UID from two parts here
     // to ensure the random number provide enough bits.
     let firstPart = ((Math.random() * 46656) | 0).toString();
     let secondPart = ((Math.random() * 46656) | 0).toString();
-    firstPart = ("000" + firstPart).slice(-3);
-    secondPart = ("000" + secondPart).slice(-3);
+    firstPart = ('000' + firstPart).slice(-3);
+    secondPart = ('000' + secondPart).slice(-3);
     let uuid = firstPart + secondPart;
     return uuid;
+  }
+
+  camelToSnakeCase = (text: string) => {
+    return text
+      .replace(/(.)([A-Z][a-z]+)/, '$1_$2')
+      .replace(/([a-z0-9])([A-Z])/, '$1_$2')
+      .toLowerCase();
+  };
+
+  cleanUpObjectKeys(dataObject: Object) {
+    return _.transform(dataObject, function (resultObject, value, key) {
+      const newKey = _.snakeCase(_.trim(key));
+      resultObject[newKey] = value;
+    });
   }
 }

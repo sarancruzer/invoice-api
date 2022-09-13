@@ -28,30 +28,30 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 })
 export class DatabaseModule {
   constructor() {
-    const host = new ConfigService().get('DB_HOST');
-    console.log(
-      '🚀 ~ file: database.module.ts ~ line 32 ~ DatabaseModule ~ constructor ~ host',
-      host,
-    );
-    const port = new ConfigService().get('DB_PORT');
-    console.log(
-      '🚀 ~ file: database.module.ts ~ line 34 ~ DatabaseModule ~ constructor ~ port',
-      port,
-    );
-    const username = new ConfigService().get('DB_USERNAME');
-    console.log(
-      '🚀 ~ file: database.module.ts ~ line 36 ~ DatabaseModule ~ constructor ~ username',
-      username,
-    );
-    const password = new ConfigService().get('DB_PASSWORD');
-    console.log(
-      '🚀 ~ file: database.module.ts ~ line 38 ~ DatabaseModule ~ constructor ~ password',
-      password,
-    );
-    const database = new ConfigService().get('DB_NAME');
-    console.log(
-      '🚀 ~ file: database.module.ts ~ line 40 ~ DatabaseModule ~ constructor ~ database',
-      database,
-    );
+    // const host = new ConfigService().get('DB_HOST');
+    // console.log(
+    //   '🚀 ~ file: database.module.ts ~ line 32 ~ DatabaseModule ~ constructor ~ host',
+    //   host,
+    // );
+    // const port = new ConfigService().get('DB_PORT');
+    // console.log(
+    //   '🚀 ~ file: database.module.ts ~ line 34 ~ DatabaseModule ~ constructor ~ port',
+    //   port,
+    // );
+    // const username = new ConfigService().get('DB_USERNAME');
+    // console.log(
+    //   '🚀 ~ file: database.module.ts ~ line 36 ~ DatabaseModule ~ constructor ~ username',
+    //   username,
+    // );
+    // const password = new ConfigService().get('DB_PASSWORD');
+    // console.log(
+    //   '🚀 ~ file: database.module.ts ~ line 38 ~ DatabaseModule ~ constructor ~ password',
+    //   password,
+    // );
+    // const database = new ConfigService().get('DB_NAME');
+    // console.log(
+    //   '🚀 ~ file: database.module.ts ~ line 40 ~ DatabaseModule ~ constructor ~ database',
+    //   database,
+    // );
   }
 }

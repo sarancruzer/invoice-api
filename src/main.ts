@@ -6,6 +6,8 @@ import * as cookieParser from 'cookie-parser';
 import { json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { launchSuperUserSeeder } from './seeders';
+import { ValidationPipe } from './shared/pipes/validation.pipe';
 
 async function bootstrap() {
   const appOptions = {cors: true};
@@ -22,11 +24,24 @@ async function bootstrap() {
 
   console.log('bootstrap -> __dirname', __dirname);
   app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.useStaticAssets(join(__dirname, '..', 'public','cgp'));
-  app.useStaticAssets(join(__dirname, '..', 'public','teams'));
-
   console.log('process.env.ENVIRONMENT', config.get('ENVIRONMENT') );
 
+  
+  bootstrapSwagger(app, config);
+  await launchSuperUserSeeder(app)
+
+  app.useGlobalPipes(new ValidationPipe());
+  
+  await app.listen(3000);
+  console.log(`Application is running on: ${await app.getUrl()}`)
+
+}
+
+
+bootstrap();
+
+
+const bootstrapSwagger = (app: NestExpressApplication, config: any) => {
 
   if (config.get('ENVIRONMENT') === 'development') {
     const configs = new DocumentBuilder()
@@ -36,6 +51,4 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, configs);
     SwaggerModule.setup('api', app, document);
   }
-  await app.listen(3000);
 }
-bootstrap();

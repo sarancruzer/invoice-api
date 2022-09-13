@@ -1,11 +1,14 @@
-import { Controller, Post, UsePipes, Body, UseFilters, Inject, HttpStatus, LoggerService, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, UsePipes, Body, UseFilters, Inject, HttpStatus, UseInterceptors } from '@nestjs/common';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { AUTH_SERVICE, IAuthService } from '../interface/auth.interface';
 import { HttpExceptionFilter } from '../../shared/exception-filters/http-exception.filter';
-import { CreateUserDto } from '../dto/auth-dto';
+import { SignupUserDto } from '../dto/auth-dto';
 import { ResponseDto } from 'src/shared/dto/response.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { TransformInterceptor } from 'src/shared/interceptors/transform.interceptor';
+import { ValidationPipe } from 'src/shared/pipes/validation.pipe';
 
+@UseInterceptors(TransformInterceptor)
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -16,10 +19,10 @@ export class AuthController {
     ) {}
 
     // User register   
-    @ApiBody({ type: CreateUserDto})
+    @ApiBody({ type: SignupUserDto})
     @Post('register')
-    async register(@Body() createUserDto: CreateUserDto): Promise<ResponseDto>{
-      const res =  await this.iAuthService.register(createUserDto);
+    async userRegister(@Body() signupUserDto: SignupUserDto): Promise<ResponseDto>{
+      const res =  await this.iAuthService.register(signupUserDto);
       return this.customResponse(res, "User Register successfully", HttpStatus.OK.toString());
     }
   
@@ -27,12 +30,12 @@ export class AuthController {
     // User authentication
     @ApiBody({ type: LoginUserDto})
     @UseFilters(new HttpExceptionFilter())
-    @UsePipes(new ValidationPipe())    
     @Post('authenticate')
-    async authenticate(@Body() loginUserDto: LoginUserDto): Promise<ResponseDto> {
+    async authenticate(@Body() loginUserDto: LoginUserDto): Promise<any> {
         console.log("🚀 ~ file: auth.controller.ts ~ line 42 ~ AuthController ~ authenticate ~ loginUserDto", loginUserDto)
         const res =  await this.iAuthService.authenticate(loginUserDto);
-        return this.customResponse(res, "Login successfully", HttpStatus.OK.toString());
+        console.log("🚀 ~ file: auth.controller.ts ~ line 35 ~ AuthController ~ authenticate ~ res", res)
+        return {message: "Login successss", result: res};
     }   
 
     async customResponse(data: object, message: string, status: string) {

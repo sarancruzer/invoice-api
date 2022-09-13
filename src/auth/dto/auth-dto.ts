@@ -1,86 +1,29 @@
 import { IsEmail, IsNotEmpty } from "class-validator";
 import { PartialType } from '@nestjs/mapped-types';
+import { ApiProperty } from "@nestjs/swagger";
 
 
-export class UserRegisterDto {
+export class SignupUserDto {
 
-    
-    @IsNotEmpty()
-    firstName: string;
-
-    lastName: string;
-
-    @IsNotEmpty()
-    email: string;
-
-    @IsNotEmpty()
-    password: string;
-
-    mobileNumber: string;
-    
-    role: string;
-
-}
-
-export class CompanyRegisterDto {
-
-    
-    @IsNotEmpty()
-    firstName: string;
-
-    @IsNotEmpty()
-    lastName: string;
-
-    @IsNotEmpty()
-    email: string;
-
-    @IsNotEmpty()
-    companyName: string;
-
-    mobileNumber: string;
-}
-
-export class TokenVerifyDto {
-
-    @IsNotEmpty()
-    token: string;
-
-    email: string; 
-}
-
-// Request DTO
-export class UserForgotPasswordDto {
-
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
-}
-
-
-export class CreateUserDto {
-
+    @ApiProperty()
     @IsNotEmpty()   
-    firstName: string;
+    name: string;
 
-
-    @IsNotEmpty()    
-    lastName: string;
-
-
+    @ApiProperty()
     @IsNotEmpty()
     @IsEmail()
     email: string;
 
-
+    @ApiProperty()
     @IsNotEmpty()
-    mobileNumber: string;
+    mobile: string;
 
-
+    @ApiProperty()
     @IsNotEmpty()
     password: string;   
 }
 
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(SignupUserDto) {}
 
 

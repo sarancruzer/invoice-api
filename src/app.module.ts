@@ -11,6 +11,8 @@ import { ProductsModule } from './products/products.module';
 import { StocksModule } from './stocks/stocks.module';
 import { InvoiceModule } from './invoice/invoice.module';
 import { InvoiceReturnModule } from './invoice-return/invoice-return.module';
+import { UsersModule } from './users/users.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { InvoiceReturnModule } from './invoice-return/invoice-return.module';
     StocksModule,
     InvoiceModule,
     InvoiceReturnModule,
+    UsersModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,12 +1,15 @@
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { Exclude, Expose, Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 
 export class LoginUserDto {
 
+  @ApiProperty()
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   password: string;
 }
@@ -18,10 +21,7 @@ export class UserTokenDto {
     id: string;
 
     @Expose()
-    firstName: string;
-
-    @Expose()
-    lastName: string;
+    name: string;
 
     @Expose()
     email: string;
@@ -36,9 +36,19 @@ export class UserTokenDto {
     passwordFlag: number;
 
     @Expose()
-    emailVerify: number;
-
-   
-
+    emailVerify: number;   
 }
+
+@Exclude()
+export class TokenDto {
+
+    @Expose()
+    expiresIn: number;
+    @Expose()
+    user: UserTokenDto;
+    @Expose()
+    token: string;
+}
+
+
 
